@@ -1,4 +1,4 @@
-//new DownloadImageAsyncTask((ImageView) view.findViewById(R.id.imageview_id_you_want_to_display)).execute(image_url_string);
+//To use this class just call: new DownloadImageAsyncTask((ImageView) view.findViewById(R.id.imageview_id_you_want_to_display)).execute(image_url_string);
 
 public class DownloadImageAsyncTask extends AsyncTask<String, Void, Bitmap> {
 	ImageView bmImage;
