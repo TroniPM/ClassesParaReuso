@@ -1,3 +1,5 @@
+//FULL ANSWER HERE -> https://stackoverflow.com/questions/45900523/connect-to-old-mysql-server-4-0-20-standard-from-php7
+
 function select($params){
 	$params = str_replace('\"',"'",$params);
 	$params = str_replace('"',"'",$params);
