@@ -1,4 +1,4 @@
-package br.com.pe.urbana.vemnotifier.core;
+package br.com.pe.urbana.vemnotifier.watcher;
 
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -10,9 +10,9 @@ import br.com.pe.urbana.vemnotifier.utils.Utils;
 
 
 /**
- * Essa classe existe para fazer um timer ao tentar enviar notificaÁıes para a tela.
- * N„o existe uma pilha de notificaÁıes, ent„o se vc enviar em um curto espaÁo de tempo,
- * Todas ser„o plotadas, ent„o sÛ a ultima ficar· aparecendo. Essa classe tem a finalidade de 
+ * Essa classe existe para fazer um timer ao tentar enviar notifica√ß√µes para a tela.
+ * N√£o existe uma pilha de notifica√ß√µes, ent√£o se vc enviar em um curto espa√ßo de tempo,
+ * Todas ser√£o plotadas, ent√£o s√≥ a ultima ficar√° aparecendo. Essa classe tem a finalidade de 
  * criar uma fila de mensagens
  * 
  * @author Paulo Mateus
