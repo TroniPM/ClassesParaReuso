@@ -1,4 +1,4 @@
-package br.com.pe.urbana.vemnotifier.gui;
+package br.com.pe.urbana.vemnotifier.watcher;
 
 import java.awt.AWTException;
 import java.awt.Image;
@@ -33,6 +33,7 @@ public class Main extends JFrame {
 
 	public static TrayIcon trayIcon;
 	public static SystemTray tray;
+	public static MensagemWatcher mw = new MensagemWatcher();
 
 	private boolean automaticPrinting = true;
 	public MenuItem print = null;
@@ -49,29 +50,15 @@ public class Main extends JFrame {
 			Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		setVisible(false);
-		Utils.mw.add(new Mensagem(Utils.appName, " Iniciando..."));
+		mw.add(new Mensagem(Utils.appName, " Iniciando..."));
 
 		startListner();
 
 		try {
-			/**
-			 * Como Listner é uma classe que é usada sem referencia, e MensagemWatcher é static,
-			 * caso seja chamado mais de uma vez o construtor no Listner irá startar o MensagemWatcher
-			 * mais de uma vez, gerando assim IllegalThreadStateException.
-			 */
-			Utils.mw.start();
+			mw.start();
 		}catch(Exception e) {
 
 		}
-	}
-
-	private void startListner() {
-		Utils.listnerClass = new Crawler();
-		Utils.listnerClass.start();
-	}
-
-	private void stopListner() {
-		Utils.listnerClass.stop();
 	}
 
 	public void hideToSystemTray() {
@@ -86,7 +73,7 @@ public class Main extends JFrame {
 			};
 
 			PopupMenu popup = new PopupMenu();
-			MenuItem defaultItem = new MenuItem("Abrir configurações");
+			MenuItem defaultItem = new MenuItem("Abrir configuraÃ§Ãµes");
 			defaultItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					try {
@@ -110,27 +97,16 @@ public class Main extends JFrame {
 					/* Create and display the form */
 					java.awt.EventQueue.invokeLater(new Runnable() {
 						public void run() {
-							//Abrir tela de configurações
 							//do stuff here
 						}
 					});
 				}
 			});
 			popup.add(defaultItem);
-			print = new MenuItem("PARAR atualizações");
+			print = new MenuItem("PARAR atualizaÃ§Ãµes");
 			print.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-
-					if (automaticPrinting) {
-						automaticPrinting = false;
-						stopListner();
-					} else {
-						automaticPrinting = true;
-
-						startListner();
-					}
-					System.out.println(automaticPrinting);
-					print.setLabel((automaticPrinting ? "PARAR" : "ATIVAR") + " atualizações");
+//do stuff
 				}
 			});
 			popup.add(print);
@@ -186,7 +162,7 @@ public class Main extends JFrame {
 			} catch(Exception e) {}
 		} else {
 			trayIcon.addActionListener(msg.action);
-			trayIcon.displayMessage(msg.title, msg.msg + "\n\nClique aqui para realizar ação.", TrayIcon.MessageType.INFO);
+			trayIcon.displayMessage(msg.title, msg.msg + "\n\nClique aqui para realizar aÃ§Ã£o.", TrayIcon.MessageType.INFO);
 		}		
 	}
 
