@@ -1,4 +1,4 @@
-package br.com.pe.urbana.vemnotifier.entidades;
+package br.com.pe.urbana.vemnotifier.watcher;
 
 import java.awt.event.ActionListener;
 import java.lang.reflect.Field;
