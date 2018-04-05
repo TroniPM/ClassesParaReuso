@@ -1,3 +1,5 @@
+package com.tronipm.java.interfacehtml;
+
 import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -7,51 +9,54 @@ import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
 public class Browser {
+	private Charset charset = null;
 	private List<String> cookies;
-	private Object/*HttpURLConnection*//*HttpURLConnection*/ conn = null;
+	private Object conn = null;/*HttpURLConnection*//*HttpURLConnection*/
 	private String USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11";
 	private boolean isHTTPS = false;
 
 	public static void main(String[] args) throws Exception {
+		// 1. setting up
+		String url1 = "http://example.com/wp/wp-login.php";//Login page
+		String url2 = "http://example.com/wp/wp-admin/edit.php";//logged page to test
+		Browser b = new Browser(false, StandardCharsets.UTF_8);
 
-		new Browser(false).test();
-	}
+		// 2. Send a "GET" request, so you can extract the cookies/cache.
+		b.get(url1);
 
-	public void test() throws Exception {
-		String url1 = "http://example.com/wp-login.php";//Login page
-		String url2 = "http://example.com/wp-admin/edit.php";//logged page to test
+		// 3. Construct above post's content and then send a POST request for authentication
+		Parameter[] p = new Parameter[] {new Parameter("log", "pmateus"), new Parameter("pwd", "kkkkk")};
+		String a1 = b.post(url1, p);
 
-		// 1. Send a "GET" request, so you can extract the cookies/cache.
-		String page1 = get(url1);
+		// 4. success then go to logged page.
+		String a2 = b.get(url2);
 
-		// 2. Construct above post's content and then send a POST request for authentication
-		Parameter[] p = new Parameter[] {new Parameter("log", "tronipm"), new Parameter("pwd", "hahahehehihi")};
-		String page2 = post(url1, p);
-
-		// 3. success then go to logged page.
-		String page3 = get(url2);
-
-		// 4. printing out the result
+		// 5. printing out the result
 		String path2 = "C:\\Users\\" + System.getProperty("user.name") + "\\Desktop\\aa.html";
-		Util.escreverEmArquivo(path2, page2, false);
+		Util.escreverEmArquivo(path2, a1, false);
 		Desktop.getDesktop().open(new File(path2));
 		String path3 = "C:\\Users\\" + System.getProperty("user.name") + "\\Desktop\\aa1.html";
-		Util.escreverEmArquivo(path3, page3, false);
+		Util.escreverEmArquivo(path3, a2, false);
 		Desktop.getDesktop().open(new File(path3));
 	}
 
-	public Browser(boolean isHTTPS) {
+	public Browser(boolean isHTTPS, Charset charset) {
 		this.isHTTPS = isHTTPS;
+		this.charset = charset;
+
 		// make sure cookies is turn on
 		CookieHandler.setDefault(new CookieManager());		
 	}
 
+	@SuppressWarnings("unused")
 	private void getHeader() {
 		Map<String, List<String>> map = ((conn instanceof HttpURLConnection)?(HttpURLConnection)conn:(HttpsURLConnection)conn).getHeaderFields();
 
@@ -72,7 +77,7 @@ public class Browser {
 		}
 	}
 
-	private String post(String url, Parameter[] params) throws Exception {
+	public String post(String url, Parameter[] params) throws Exception {
 		String postParams = "";
 		if(params!=null) {
 			for(Parameter in: params) {
@@ -111,7 +116,7 @@ public class Browser {
 
 		// Send post request
 		DataOutputStream wr = new DataOutputStream(((conn instanceof HttpURLConnection)?(HttpURLConnection)conn:(HttpsURLConnection)conn).getOutputStream());
-		wr.write(postParams.getBytes(Util.UTF_8));
+		wr.write(postParams.getBytes(charset));
 		wr.flush();
 		wr.close();
 
@@ -135,7 +140,7 @@ public class Browser {
 		return response.toString();
 	}
 
-	private String get(String url) throws Exception {
+	public String get(String url) throws Exception {
 
 		URL obj = new URL(url);
 		if(isHTTPS) {
@@ -185,32 +190,5 @@ public class Browser {
 
 	public void setCookies(List<String> cookies) {
 		this.cookies = cookies;
-	}
-
-
-	class Parameter {
-		private String id;
-		private String value;
-
-		public String getId() {
-			return id;
-		}
-		public void setId(String id) {
-			this.id = id;
-		}
-		public String getValue() {
-			return value;
-		}
-		public void setValue(String value) {
-			this.value = value;
-		}
-		public Parameter(String id, String value) {
-			super();
-			this.id = id;
-			this.value = value;
-		}
-		public String toString() {
-			return getId()+"="+getValue();
-		}
 	}
 }
