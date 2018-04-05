@@ -1,4 +1,9 @@
-Usage example (supports http and https):
+# Java interface html
+
+You can use these classes to submit simple post/get requests without libs like [Selenium] and [HtmlUnit]. Supports:
+  - http and https
+  - get requests
+  - post requests
 # Example 1
 
 ```JAVA
@@ -27,3 +32,6 @@ Usage example (supports http and https):
 		Desktop.getDesktop().open(new File(path3));
 	}
 ```
+
+   [Selenium]: <https://mvnrepository.com/artifact/org.seleniumhq.selenium>
+   [HtmlUnit]: <https://mvnrepository.com/artifact/net.sourceforge.htmlunit>
