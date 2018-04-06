@@ -3,8 +3,6 @@ package com.tronipm.java.interfacehtml;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 
 public class Util {
 

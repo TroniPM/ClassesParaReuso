@@ -1,9 +1,7 @@
 package com.tronipm.java.interfacehtml;
 
-import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
-import java.io.File;
 import java.io.InputStreamReader;
 import java.net.CookieHandler;
 import java.net.CookieManager;
@@ -11,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,29 +23,59 @@ public class Browser {
 	private boolean isHTTPS = false;
 
 	public static void main(String[] args) throws Exception {
-		// 1. setting up
-		String url1 = "http://example.com/wp/wp-login.php";//Login page
-		String url2 = "http://example.com/wp/wp-admin/edit.php";//logged page to test
 		Browser b = new Browser(false, StandardCharsets.UTF_8);
 
-		// 2. Send a "GET" request, so you can extract the cookies/cache.
+		b.correios("55295555");
+	}
+
+	public void correios(String cep) throws Exception {
+		String url1 = "http://www.buscacep.correios.com.br/sistemas/buscacep/resultadoBuscaCepEndereco.cfm";
+		Browser b = new Browser(false, StandardCharsets.UTF_8);
+
 		b.get(url1);
 
-		// 3. Construct above post's content and then send a POST request for authentication
-		Parameter[] p = new Parameter[] {new Parameter("log", "pmateus"), new Parameter("pwd", "kkkkk")};
+		Parameter[] p = new Parameter[] {new Parameter("relaxation", cep), new Parameter("tipoCEP", "ALL")};
 		String a1 = b.post(url1, p);
 
-		// 4. success then go to logged page.
-		String a2 = b.get(url2);
+		String path3 = "C:\\Users\\" + System.getProperty("user.name") + "\\Desktop\\cccccc.html";
+		Util.escreverEmArquivo(path3, a1, false);
+		//		Desktop.getDesktop().open(new File(path3));
 
-		// 5. printing out the result
-		String path2 = "C:\\Users\\" + System.getProperty("user.name") + "\\Desktop\\aa.html";
-		Util.escreverEmArquivo(path2, a1, false);
-		Desktop.getDesktop().open(new File(path2));
-		String path3 = "C:\\Users\\" + System.getProperty("user.name") + "\\Desktop\\aa1.html";
-		Util.escreverEmArquivo(path3, a2, false);
-		Desktop.getDesktop().open(new File(path3));
+
+		HTMLObject h = HTMLObject.parse(a1);
+
+		ArrayList<HTMLObject> aaa = h.getObjectsByTag("table");
+		for(HTMLObject in: aaa) {
+			System.out.println(in.getHtmlSourceAsHtml());
+		}
+
 	}
+
+	//	public static void main(String[] args) throws Exception {
+	//		// 1. setting up
+	//		String url1 = "http://example.com/wp/wp-login.php";//Login page
+	//		String url2 = "http://example.com/wp/wp-admin/edit.php";//logged page to test
+	//		Browser b = new Browser(false, StandardCharsets.UTF_8);
+	//
+	//		// 2. Send a "GET" request, so you can extract the cookies/cache.
+	//		b.get(url1);
+	//
+	//		// 3. Construct above post's content and then send a POST request for authentication
+	//		Parameter[] p = new Parameter[] {new Parameter("log", "pmateus"), new Parameter("pwd", "111111")};
+	//		String a1 = b.post(url1, p);
+	//
+	//		// 4. success then go to logged page.
+	//		String a2 = b.get(url2);
+	//
+	//		// 5. printing out the result
+	//		String path2 = "C:\\Users\\" + System.getProperty("user.name") + "\\Desktop\\aa.html";
+	//		Util.escreverEmArquivo(path2, a1, false);
+	//		Desktop.getDesktop().open(new File(path2));
+	//		String path3 = "C:\\Users\\" + System.getProperty("user.name") + "\\Desktop\\aa1.html";
+	//		Util.escreverEmArquivo(path3, a2, false);
+	//		Desktop.getDesktop().open(new File(path3));
+	//
+	//	}
 
 	public Browser(boolean isHTTPS, Charset charset) {
 		this.isHTTPS = isHTTPS;
