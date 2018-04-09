@@ -4,22 +4,25 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+/**
+ * 
+ * @author Paulo Mateus
+ * @email paulomatew@gmail.com
+ * @date 09/04/2018
+ *
+ */
 public class Util {
-
 	public static void escreverEmArquivo(String path, String content, boolean isAppend) {
 		FileOutputStream fop = null;
 		File file;
 		try {
 			file = new File(path);
 			fop = new FileOutputStream(file, isAppend);
-			//Se arquivo não existe, é criado
 			if (!file.exists()) {
 				file.createNewFile();
 			}
-			//pega o content em bytes
 			byte[] contentInBytes = content.getBytes();
 			fop.write(contentInBytes);
-			//flush serve para garantir o envio do último lote de bytes
 			fop.flush();
 			fop.close();
 

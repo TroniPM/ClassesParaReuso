@@ -1,7 +1,9 @@
 package com.tronipm.java.interfacehtml;
 
+import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.net.CookieHandler;
 import java.net.CookieManager;
@@ -24,11 +26,43 @@ public class Browser {
 
 	public static void main(String[] args) throws Exception {
 		Browser b = new Browser(false, StandardCharsets.UTF_8);
+		//		b.example1();
 
-		b.correios("55295555");
+		//		ArrayList<Endereco> enderecos = b.correios("rua canhotinho");
+		//
+		//		System.out.println("----ENCONTRADOS----");
+		//		for(Endereco in: enderecos) {
+		//			System.out.println(in);
+		//		}
+
 	}
 
-	public void correios(String cep) throws Exception {
+	public void example1() throws Exception {
+		// 1. setting up
+		String url1 = "http://example.com/wp/wp-login.php";//Login page
+		String url2 = "http://example.com/wp/wp-admin/edit.php";//logged page to test
+		Browser b = new Browser(false, StandardCharsets.UTF_8);
+
+		// 2. Send a "GET" request, so you can extract the cookies/cache.
+		b.get(url1);
+
+		// 3. Construct above post's content and then send a POST request for authentication
+		Parameter[] p = new Parameter[] {new Parameter("log", "pmateus"), new Parameter("pwd", "120593")};
+		String a1 = b.post(url1, p);
+
+		// 4. success then go to logged page.
+		String a2 = b.get(url2);
+
+		// 5. printing out the result
+		String path2 = "C:\\Users\\" + System.getProperty("user.name") + "\\Desktop\\aa.html";
+		Util.escreverEmArquivo(path2, a1, false);
+		Desktop.getDesktop().open(new File(path2));
+		String path3 = "C:\\Users\\" + System.getProperty("user.name") + "\\Desktop\\aa1.html";
+		Util.escreverEmArquivo(path3, a2, false);
+		Desktop.getDesktop().open(new File(path3));
+	}
+
+	public ArrayList<Endereco> correios(String cep) throws Exception {
 		String url1 = "http://www.buscacep.correios.com.br/sistemas/buscacep/resultadoBuscaCepEndereco.cfm";
 		Browser b = new Browser(false, StandardCharsets.UTF_8);
 
@@ -39,43 +73,40 @@ public class Browser {
 
 		String path3 = "C:\\Users\\" + System.getProperty("user.name") + "\\Desktop\\cccccc.html";
 		Util.escreverEmArquivo(path3, a1, false);
-		//		Desktop.getDesktop().open(new File(path3));
+		Desktop.getDesktop().open(new File(path3));
 
 
-		HTMLObject h = HTMLObject.parse(a1);
+		HTMLObject html = HTMLObject.parse(a1);
 
-		ArrayList<HTMLObject> aaa = h.getObjectsByTag("table");
-		for(HTMLObject in: aaa) {
-			System.out.println(in.getHtmlSourceAsHtml());
-		}
+		ArrayList<HTMLObject> aaa = html.getObjectByClass("tmptabela");
 
+		ArrayList<Endereco> end = new ArrayList<>();
+
+		if(aaa.get(0).getChildrens().size() >= 2)
+
+			for(int i = 1; i < aaa.get(0).getChildrens().size(); i++) {
+
+				String rua = (aaa.get(0).getChildrens().get(i).getChildrens().get(0).getHtmlSourceAsHtml());
+				rua = html.extractDataFromTags(rua).replace("&nbsp;", "").trim();
+				rua = (rua.isEmpty() ? "NULL" : rua);
+				String bairro = (aaa.get(0).getChildrens().get(i).getChildrens().get(1).getHtmlSourceAsHtml());
+				bairro = html.extractDataFromTags(bairro).replace("&nbsp;", "").trim();
+				bairro = (bairro.isEmpty() ? "NULL" : bairro);
+				String uf = (aaa.get(0).getChildrens().get(i).getChildrens().get(2).getHtmlSourceAsHtml());
+				uf = html.extractDataFromTags(uf).replace("&nbsp;", "").trim();
+				uf = (uf.isEmpty() ? "NULL" : uf);
+				cep = (aaa.get(0).getChildrens().get(i).getChildrens().get(3).getHtmlSourceAsHtml());
+				cep = html.extractDataFromTags(cep).replace("&nbsp;", "").trim();
+				cep = (cep.isEmpty() ? "NULL" : cep);
+
+
+				Endereco e = new Endereco(rua, bairro, uf, cep);
+
+				end.add(e);
+			}
+
+		return (end.size() > 0 ? end : null);
 	}
-
-	//	public static void main(String[] args) throws Exception {
-	//		// 1. setting up
-	//		String url1 = "http://example.com/wp/wp-login.php";//Login page
-	//		String url2 = "http://example.com/wp/wp-admin/edit.php";//logged page to test
-	//		Browser b = new Browser(false, StandardCharsets.UTF_8);
-	//
-	//		// 2. Send a "GET" request, so you can extract the cookies/cache.
-	//		b.get(url1);
-	//
-	//		// 3. Construct above post's content and then send a POST request for authentication
-	//		Parameter[] p = new Parameter[] {new Parameter("log", "pmateus"), new Parameter("pwd", "111111")};
-	//		String a1 = b.post(url1, p);
-	//
-	//		// 4. success then go to logged page.
-	//		String a2 = b.get(url2);
-	//
-	//		// 5. printing out the result
-	//		String path2 = "C:\\Users\\" + System.getProperty("user.name") + "\\Desktop\\aa.html";
-	//		Util.escreverEmArquivo(path2, a1, false);
-	//		Desktop.getDesktop().open(new File(path2));
-	//		String path3 = "C:\\Users\\" + System.getProperty("user.name") + "\\Desktop\\aa1.html";
-	//		Util.escreverEmArquivo(path3, a2, false);
-	//		Desktop.getDesktop().open(new File(path3));
-	//
-	//	}
 
 	public Browser(boolean isHTTPS, Charset charset) {
 		this.isHTTPS = isHTTPS;

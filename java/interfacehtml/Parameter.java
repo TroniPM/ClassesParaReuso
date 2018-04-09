@@ -1,5 +1,12 @@
 package com.tronipm.java.interfacehtml;
 
+/**
+ * 
+ * @author Paulo Mateus
+ * @email paulomatew@gmail.com
+ * @date 09/04/2018
+ *
+ */
 public class Parameter {
 	private String id;
 	private String value;

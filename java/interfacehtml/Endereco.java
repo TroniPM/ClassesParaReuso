@@ -1,7 +1,20 @@
 package com.tronipm.java.interfacehtml;
 
+/**
+ * 
+ * @author Paulo Mateus
+ * @email paulomatew@gmail.com
+ * @date 09/04/2018
+ *
+ */
 public class Endereco {
 	private String rua, bairro, uf, cep;
+
+	@Override
+	public String toString() {
+		String a = (rua) + " <=> " + (bairro) + " <=> " + (uf) + " <=> " + (cep);
+		return a;
+	}
 
 	public String getRua() {
 		return rua;
