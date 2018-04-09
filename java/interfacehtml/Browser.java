@@ -4,14 +4,16 @@ import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,15 +28,8 @@ public class Browser {
 
 	public static void main(String[] args) throws Exception {
 		Browser b = new Browser(false, StandardCharsets.UTF_8);
-		//		b.example1();
-
-		//		ArrayList<Endereco> enderecos = b.correios("rua canhotinho");
-		//
-		//		System.out.println("----ENCONTRADOS----");
-		//		for(Endereco in: enderecos) {
-		//			System.out.println(in);
-		//		}
-
+		
+		b.example1();	
 	}
 
 	public void example1() throws Exception {
@@ -47,7 +42,7 @@ public class Browser {
 		b.get(url1);
 
 		// 3. Construct above post's content and then send a POST request for authentication
-		Parameter[] p = new Parameter[] {new Parameter("log", "pmateus"), new Parameter("pwd", "120593")};
+		Parameter[] p = new Parameter[] {new Parameter("log", "pmateus"), new Parameter("pwd", "kkkkkkk")};
 		String a1 = b.post(url1, p);
 
 		// 4. success then go to logged page.
@@ -62,51 +57,7 @@ public class Browser {
 		Desktop.getDesktop().open(new File(path3));
 	}
 
-	public ArrayList<Endereco> correios(String cep) throws Exception {
-		String url1 = "http://www.buscacep.correios.com.br/sistemas/buscacep/resultadoBuscaCepEndereco.cfm";
-		Browser b = new Browser(false, StandardCharsets.UTF_8);
 
-		b.get(url1);
-
-		Parameter[] p = new Parameter[] {new Parameter("relaxation", cep), new Parameter("tipoCEP", "ALL")};
-		String a1 = b.post(url1, p);
-
-		String path3 = "C:\\Users\\" + System.getProperty("user.name") + "\\Desktop\\cccccc.html";
-		Util.escreverEmArquivo(path3, a1, false);
-		Desktop.getDesktop().open(new File(path3));
-
-
-		HTMLObject html = HTMLObject.parse(a1);
-
-		ArrayList<HTMLObject> aaa = html.getObjectByClass("tmptabela");
-
-		ArrayList<Endereco> end = new ArrayList<>();
-
-		if(aaa.get(0).getChildrens().size() >= 2)
-
-			for(int i = 1; i < aaa.get(0).getChildrens().size(); i++) {
-
-				String rua = (aaa.get(0).getChildrens().get(i).getChildrens().get(0).getHtmlSourceAsHtml());
-				rua = html.extractDataFromTags(rua).replace("&nbsp;", "").trim();
-				rua = (rua.isEmpty() ? "NULL" : rua);
-				String bairro = (aaa.get(0).getChildrens().get(i).getChildrens().get(1).getHtmlSourceAsHtml());
-				bairro = html.extractDataFromTags(bairro).replace("&nbsp;", "").trim();
-				bairro = (bairro.isEmpty() ? "NULL" : bairro);
-				String uf = (aaa.get(0).getChildrens().get(i).getChildrens().get(2).getHtmlSourceAsHtml());
-				uf = html.extractDataFromTags(uf).replace("&nbsp;", "").trim();
-				uf = (uf.isEmpty() ? "NULL" : uf);
-				cep = (aaa.get(0).getChildrens().get(i).getChildrens().get(3).getHtmlSourceAsHtml());
-				cep = html.extractDataFromTags(cep).replace("&nbsp;", "").trim();
-				cep = (cep.isEmpty() ? "NULL" : cep);
-
-
-				Endereco e = new Endereco(rua, bairro, uf, cep);
-
-				end.add(e);
-			}
-
-		return (end.size() > 0 ? end : null);
-	}
 
 	public Browser(boolean isHTTPS, Charset charset) {
 		this.isHTTPS = isHTTPS;
@@ -137,7 +88,7 @@ public class Browser {
 		}
 	}
 
-	public String post(String url, Parameter[] params) throws Exception {
+	public String post(String url, Parameter[] params) {
 		String postParams = "";
 		if(params!=null) {
 			for(Parameter in: params) {
@@ -145,17 +96,28 @@ public class Browser {
 			}
 		}
 
-		URL obj = new URL(url);
+		URL obj = null;
+		try {
+			obj = new URL(url);
 
-		if(isHTTPS) {
-			conn = (HttpsURLConnection)obj.openConnection();
-		} else {
-			conn = (HttpURLConnection)obj.openConnection();
+			if(isHTTPS) {
+				conn = (HttpsURLConnection)obj.openConnection();
+			} else {
+				conn = (HttpURLConnection)obj.openConnection();
+			}
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 		// Acts like a browser
 		((conn instanceof HttpURLConnection)?(HttpURLConnection)conn:(HttpsURLConnection)conn).setUseCaches(false);
-		((conn instanceof HttpURLConnection)?(HttpURLConnection)conn:(HttpsURLConnection)conn).setRequestMethod("POST");
+		try {
+			((conn instanceof HttpURLConnection)?(HttpURLConnection)conn:(HttpsURLConnection)conn).setRequestMethod("POST");
+		} catch (ProtocolException e) {
+			e.printStackTrace();
+		}
 		((conn instanceof HttpURLConnection)?(HttpURLConnection)conn:(HttpsURLConnection)conn).setRequestProperty("Host", "google.com");
 		((conn instanceof HttpURLConnection)?(HttpURLConnection)conn:(HttpsURLConnection)conn).setRequestProperty("User-Agent", USER_AGENT);
 		((conn instanceof HttpURLConnection)?(HttpURLConnection)conn:(HttpsURLConnection)conn).setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
@@ -175,42 +137,74 @@ public class Browser {
 		((conn instanceof HttpURLConnection)?(HttpURLConnection)conn:(HttpsURLConnection)conn).setDoInput(true);
 
 		// Send post request
-		DataOutputStream wr = new DataOutputStream(((conn instanceof HttpURLConnection)?(HttpURLConnection)conn:(HttpsURLConnection)conn).getOutputStream());
-		wr.write(postParams.getBytes(charset));
-		wr.flush();
-		wr.close();
+		DataOutputStream wr = null;
+		try {
+			wr = new DataOutputStream(((conn instanceof HttpURLConnection)?(HttpURLConnection)conn:(HttpsURLConnection)conn).getOutputStream());
+			wr.write(postParams.getBytes(charset));
+			wr.flush();
+			wr.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-		int responseCode = ((conn instanceof HttpURLConnection)?(HttpURLConnection)conn:(HttpsURLConnection)conn).getResponseCode();
+		int responseCode = -1;
+		try {
+			responseCode = ((conn instanceof HttpURLConnection)?(HttpURLConnection)conn:(HttpsURLConnection)conn).getResponseCode();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		System.out.println("\nSending 'POST' request to URL : " + url);
 		System.out.println("Post parameters : " + postParams);
 		System.out.println("Response Code : " + responseCode);
 
 		//getHeader();
 
-		BufferedReader in = new BufferedReader(new InputStreamReader(((conn instanceof HttpURLConnection)?(HttpURLConnection)conn:(HttpsURLConnection)conn).getInputStream()));
+		BufferedReader in = null;
+		try {
+			in = new BufferedReader(new InputStreamReader(((conn instanceof HttpURLConnection)?(HttpURLConnection)conn:(HttpsURLConnection)conn).getInputStream()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		String inputLine;
 		StringBuffer response = new StringBuffer();
 
-		while ((inputLine = in.readLine()) != null) {
-			response.append(inputLine);
+		try {
+			while ((inputLine = in.readLine()) != null) {
+				response.append(inputLine);
+			}
+			in.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		in.close();
 
 		//return new String(response.toString().getBytes(), Util.UTF_8);
 		return response.toString();
 	}
 
-	public String get(String url) throws Exception {
+	public String get(String url)   {
 
-		URL obj = new URL(url);
-		if(isHTTPS) {
-			conn = (HttpsURLConnection)obj.openConnection();
-		} else {
-			conn = (HttpURLConnection)obj.openConnection();
+		URL obj;
+		try {
+			obj = new URL(url);
+
+			if(isHTTPS) {
+				conn = (HttpsURLConnection)obj.openConnection();
+			} else {
+				conn = (HttpURLConnection)obj.openConnection();
+			}
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
+
 		// default is GET
-		((conn instanceof HttpURLConnection)?(HttpURLConnection)conn:(HttpsURLConnection)conn).setRequestMethod("GET");
+		try {
+			((conn instanceof HttpURLConnection)?(HttpURLConnection)conn:(HttpsURLConnection)conn).setRequestMethod("GET");
+		} catch (ProtocolException e) {
+			e.printStackTrace();
+		}
 		((conn instanceof HttpURLConnection)?(HttpURLConnection)conn:(HttpsURLConnection)conn).setUseCaches(false);
 
 		// act like a browser
@@ -222,20 +216,35 @@ public class Browser {
 				((conn instanceof HttpURLConnection)?(HttpURLConnection)conn:(HttpsURLConnection)conn).addRequestProperty("Cookie", cookie.split(";", 1)[0]);
 			}
 		}
-		int responseCode = ((conn instanceof HttpURLConnection)?(HttpURLConnection)conn:(HttpsURLConnection)conn).getResponseCode();
+		int responseCode = -1;
+		try {
+			responseCode = ((conn instanceof HttpURLConnection)?(HttpURLConnection)conn:(HttpsURLConnection)conn).getResponseCode();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		System.out.println("\nSending 'GET' request to URL : " + url);
 		System.out.println("Response Code : " + responseCode);
 
 		//		getHeader();
 
-		BufferedReader in = new BufferedReader(new InputStreamReader(((conn instanceof HttpURLConnection)?(HttpURLConnection)conn:(HttpsURLConnection)conn).getInputStream()));
+		BufferedReader in = null;
+		try {
+			in = new BufferedReader(new InputStreamReader(((conn instanceof HttpURLConnection)?(HttpURLConnection)conn:(HttpsURLConnection)conn).getInputStream()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		String inputLine;
 		StringBuffer response = new StringBuffer();
 
-		while ((inputLine = in.readLine()) != null) {
-			response.append(inputLine);
+		try {
+			while ((inputLine = in.readLine()) != null) {
+				response.append(inputLine);
+			}
+
+			in.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		in.close();
 
 		// Get the response cookies
 		setCookies(((conn instanceof HttpURLConnection)?(HttpURLConnection)conn:(HttpsURLConnection)conn).getHeaderFields().get("Set-Cookie"));

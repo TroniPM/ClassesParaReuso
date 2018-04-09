@@ -34,7 +34,7 @@ public class HTMLObject {
 	}
 
 	public String extractDataFromTags (String args) {
-		String nohtml = args.toString().replaceAll("\\" + TAG_START + ".*?" + TAG_END + ">"," ");
+		String nohtml = args.toString().replaceAll("\\" + TAG_START + ".*?" + TAG_END," ");
 		return (nohtml);
 	}
 
