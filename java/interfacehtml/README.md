@@ -1,4 +1,4 @@
-# Java interface html
+# Simple Java interface to html
 
 You can use these classes to submit simple post/get requests without libs like [Selenium] and [HtmlUnit]. Supports:
   - http and https
