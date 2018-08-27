@@ -6,6 +6,56 @@
  */
 public abstract class ConversorASCII {
 
+	public static void main(String[] args) {
+		String txt = "mé æáé i123";
+
+		System.out.println(ConversorASCII.exec(txt, false));
+	}
+
+	/**
+	 * Converterá String para ASCII, ignorando os nao ASCIIs. Ex méæáéi123, trará "meaei".
+	 * Desconsiderando dígitos e caracteres especiais. APENAS LETRAS.
+	 * @param txt String que será convertida para ASCI
+	 * @param isUPPER vai trazer a String já em UPPERCASE ou LOWERCASE
+	 * @return String convertida para ASCII
+	 */
+	public static String exec(String txt, boolean isUPPER) {
+		StringBuilder sb = new StringBuilder();
+		for(char in : txt.toCharArray()) {
+
+			sb.append(String.valueOf(a(in, isUPPER)).trim());
+			sb.append(String.valueOf(b(in, isUPPER)).trim());
+			sb.append(String.valueOf(c(in, isUPPER)).trim());
+			sb.append(String.valueOf(d(in, isUPPER)).trim());
+			sb.append(String.valueOf(e(in, isUPPER)).trim());
+			sb.append(String.valueOf(f(in, isUPPER)).trim());
+			sb.append(String.valueOf(g(in, isUPPER)).trim());
+			sb.append(String.valueOf(h(in, isUPPER)).trim());
+			sb.append(String.valueOf(i(in, isUPPER)).trim());
+			sb.append(String.valueOf(j(in, isUPPER)).trim());
+			sb.append(String.valueOf(k(in, isUPPER)).trim());
+			sb.append(String.valueOf(l(in, isUPPER)).trim());
+			sb.append(String.valueOf(m(in, isUPPER)).trim());
+			sb.append(String.valueOf(n(in, isUPPER)).trim());
+			sb.append(String.valueOf(o(in, isUPPER)).trim());
+			sb.append(String.valueOf(p(in, isUPPER)).trim());
+			sb.append(String.valueOf(q(in, isUPPER)).trim());
+			sb.append(String.valueOf(r(in, isUPPER)).trim());
+			sb.append(String.valueOf(s(in, isUPPER)).trim());
+			sb.append(String.valueOf(t(in, isUPPER)).trim());
+			sb.append(String.valueOf(u(in, isUPPER)).trim());
+			sb.append(String.valueOf(v(in, isUPPER)).trim());
+			sb.append(String.valueOf(w(in, isUPPER)).trim());
+			sb.append(String.valueOf(x(in, isUPPER)).trim());
+			sb.append(String.valueOf(y(in, isUPPER)).trim());
+			sb.append(String.valueOf(z(in, isUPPER)).trim());
+			sb.append(space(in));//comente para não trazer espaço
+
+		}
+
+		return sb.toString().trim();
+	}
+
 	private static char a(char txt, boolean isUPPER) {
 		final String pattern = "ÁáÂâÀàÅåÃãÄäaA";
 		if(pattern.contains(String.valueOf(txt))) {
@@ -222,55 +272,4 @@ public abstract class ConversorASCII {
 			return "";
 		}
 	}
-
-	/**
-	 * Converterá String para ASCII, ignorando os nao ASCIIs. Ex méæáéi123, trará "meaei".
-	 * Desconsiderando dígitos e caracteres especiais. APENAS LETRAS.
-	 * @param txt String que será convertida para ASCI
-	 * @param isUPPER vai trazer a String já em UPPERCASE ou LOWERCASE
-	 * @return String convertida para ASCII
-	 */
-	public static String exec(String txt, boolean isUPPER) {
-		StringBuilder sb = new StringBuilder();
-		for(char in : txt.toCharArray()) {
-
-			sb.append(String.valueOf(a(in, isUPPER)).trim());
-			sb.append(String.valueOf(b(in, isUPPER)).trim());
-			sb.append(String.valueOf(c(in, isUPPER)).trim());
-			sb.append(String.valueOf(d(in, isUPPER)).trim());
-			sb.append(String.valueOf(e(in, isUPPER)).trim());
-			sb.append(String.valueOf(f(in, isUPPER)).trim());
-			sb.append(String.valueOf(g(in, isUPPER)).trim());
-			sb.append(String.valueOf(h(in, isUPPER)).trim());
-			sb.append(String.valueOf(i(in, isUPPER)).trim());
-			sb.append(String.valueOf(j(in, isUPPER)).trim());
-			sb.append(String.valueOf(k(in, isUPPER)).trim());
-			sb.append(String.valueOf(l(in, isUPPER)).trim());
-			sb.append(String.valueOf(m(in, isUPPER)).trim());
-			sb.append(String.valueOf(n(in, isUPPER)).trim());
-			sb.append(String.valueOf(o(in, isUPPER)).trim());
-			sb.append(String.valueOf(p(in, isUPPER)).trim());
-			sb.append(String.valueOf(q(in, isUPPER)).trim());
-			sb.append(String.valueOf(r(in, isUPPER)).trim());
-			sb.append(String.valueOf(s(in, isUPPER)).trim());
-			sb.append(String.valueOf(t(in, isUPPER)).trim());
-			sb.append(String.valueOf(u(in, isUPPER)).trim());
-			sb.append(String.valueOf(v(in, isUPPER)).trim());
-			sb.append(String.valueOf(w(in, isUPPER)).trim());
-			sb.append(String.valueOf(x(in, isUPPER)).trim());
-			sb.append(String.valueOf(y(in, isUPPER)).trim());
-			sb.append(String.valueOf(z(in, isUPPER)).trim());
-			sb.append(space(in));//comente para não trazer espaço
-
-		}
-
-		return sb.toString().trim();
-	}
-
-	public static void main(String[] args) {
-		String txt = "mé æáé i123";
-
-		System.out.println(ConversorASCII.exec(txt, false));
-	}
-
 }
