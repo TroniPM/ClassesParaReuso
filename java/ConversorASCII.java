@@ -4,9 +4,9 @@
  * @email paulomatew@gmail.com
  * @project ConversorTexto
  */
-public class ConversorASCII {
+public abstract class ConversorASCII {
 
-	public char a(char txt, boolean isUPPER) {
+	private static char a(char txt, boolean isUPPER) {
 		final String pattern = "ÁáÂâÀàÅåÃãÄäaA";
 		if(pattern.contains(String.valueOf(txt))) {
 			return isUPPER ? 'A' : 'a';
@@ -14,7 +14,7 @@ public class ConversorASCII {
 			return Character.MIN_VALUE;
 		}
 	}
-	public char b(char txt, boolean isUPPER) {
+	private static char b(char txt, boolean isUPPER) {
 		final String pattern = "Bb";
 		if(pattern.contains(String.valueOf(txt))) {
 			return isUPPER ? 'B' : 'b';
@@ -22,7 +22,7 @@ public class ConversorASCII {
 			return Character.MIN_VALUE;
 		}
 	}
-	public char c(char txt, boolean isUPPER) {
+	private static char c(char txt, boolean isUPPER) {
 		final String pattern = "ÇçCc";
 		if(pattern.contains(String.valueOf(txt))) {
 			return isUPPER ? 'C' : 'c';
@@ -30,7 +30,7 @@ public class ConversorASCII {
 			return Character.MIN_VALUE;
 		}
 	}
-	public char d(char txt, boolean isUPPER) {
+	private static char d(char txt, boolean isUPPER) {
 		final String pattern = "Dd";
 		if(pattern.contains(String.valueOf(txt))) {
 			return isUPPER ? 'D' : 'd';
@@ -38,7 +38,7 @@ public class ConversorASCII {
 			return Character.MIN_VALUE;
 		}
 	}
-	public char e(char txt, boolean isUPPER) {
+	private static char e(char txt, boolean isUPPER) {
 		final String pattern = "ÉéÊêÈèËëEe";
 		if(pattern.contains(String.valueOf(txt))) {
 			return isUPPER ? 'E' : 'e';
@@ -46,7 +46,7 @@ public class ConversorASCII {
 			return Character.MIN_VALUE;
 		}
 	}
-	public char f(char txt, boolean isUPPER) {
+	private static char f(char txt, boolean isUPPER) {
 		final String pattern = "Ff";
 		if(pattern.contains(String.valueOf(txt))) {
 			return isUPPER ? 'F' : 'f';
@@ -54,7 +54,7 @@ public class ConversorASCII {
 			return Character.MIN_VALUE;
 		}
 	}
-	public char g(char txt, boolean isUPPER) {
+	private static char g(char txt, boolean isUPPER) {
 		final String pattern = "Gg";
 		if(pattern.contains(String.valueOf(txt))) {
 			return isUPPER ? 'G' : 'g';
@@ -62,7 +62,7 @@ public class ConversorASCII {
 			return Character.MIN_VALUE;
 		}
 	}
-	public char h(char txt, boolean isUPPER) {
+	private static char h(char txt, boolean isUPPER) {
 		final String pattern = "Hh";
 		if(pattern.contains(String.valueOf(txt))) {
 			return isUPPER ? 'H' : 'h';
@@ -70,7 +70,7 @@ public class ConversorASCII {
 			return Character.MIN_VALUE;
 		}
 	}
-	public char i(char txt, boolean isUPPER) {
+	private static char i(char txt, boolean isUPPER) {
 		final String pattern = "ÍíÎîÌìÏïIi";
 		if(pattern.contains(String.valueOf(txt))) {
 			return isUPPER ? 'I' : 'i';
@@ -78,7 +78,7 @@ public class ConversorASCII {
 			return Character.MIN_VALUE;
 		}
 	}
-	public char j(char txt, boolean isUPPER) {
+	private static char j(char txt, boolean isUPPER) {
 		final String pattern = "Jj";
 		if(pattern.contains(String.valueOf(txt))) {
 			return isUPPER ? 'J' : 'j';
@@ -86,7 +86,7 @@ public class ConversorASCII {
 			return Character.MIN_VALUE;
 		}
 	}
-	public char k(char txt, boolean isUPPER) {
+	private static char k(char txt, boolean isUPPER) {
 		final String pattern = "Kk";
 		if(pattern.contains(String.valueOf(txt))) {
 			return isUPPER ? 'K' : 'k';
@@ -94,7 +94,7 @@ public class ConversorASCII {
 			return Character.MIN_VALUE;
 		}
 	}
-	public char l(char txt, boolean isUPPER) {
+	private static char l(char txt, boolean isUPPER) {
 		final String pattern = "Ll";
 		if(pattern.contains(String.valueOf(txt))) {
 			return isUPPER ? 'L' : 'l';
@@ -102,7 +102,7 @@ public class ConversorASCII {
 			return Character.MIN_VALUE;
 		}
 	}
-	public char m(char txt, boolean isUPPER) {
+	private static char m(char txt, boolean isUPPER) {
 		final String pattern = "Mm";
 		if(pattern.contains(String.valueOf(txt))) {
 			return isUPPER ? 'M' : 'm';
@@ -110,7 +110,7 @@ public class ConversorASCII {
 			return Character.MIN_VALUE;
 		}
 	}
-	public char n(char txt, boolean isUPPER) {
+	private static char n(char txt, boolean isUPPER) {
 		final String pattern = "ÑñNn";
 		if(pattern.contains(String.valueOf(txt))) {
 			return isUPPER ? 'N' : 'n';
@@ -118,7 +118,7 @@ public class ConversorASCII {
 			return Character.MIN_VALUE;
 		}
 	}
-	public char o(char txt, boolean isUPPER) {
+	private static char o(char txt, boolean isUPPER) {
 		final String pattern = "ÓóÔôÒòØøÕõÖöOo";
 		if(pattern.contains(String.valueOf(txt))) {
 			return isUPPER ? 'O' : 'o';
@@ -126,7 +126,7 @@ public class ConversorASCII {
 			return Character.MIN_VALUE;
 		}
 	}
-	public char p(char txt, boolean isUPPER) {
+	private static char p(char txt, boolean isUPPER) {
 		final String pattern = "Pp";
 		if(pattern.contains(String.valueOf(txt))) {
 			return isUPPER ? 'P' : 'p';
@@ -134,7 +134,7 @@ public class ConversorASCII {
 			return Character.MIN_VALUE;
 		}
 	}
-	public char q(char txt, boolean isUPPER) {
+	private static char q(char txt, boolean isUPPER) {
 		final String pattern = "Qq";
 		if(pattern.contains(String.valueOf(txt))) {
 			return isUPPER ? 'Q' : 'q';
@@ -142,7 +142,7 @@ public class ConversorASCII {
 			return Character.MIN_VALUE;
 		}
 	}
-	public char r(char txt, boolean isUPPER) {
+	private static char r(char txt, boolean isUPPER) {
 		final String pattern = "Rr";
 		if(pattern.contains(String.valueOf(txt))) {
 			return isUPPER ? 'R' : 'r';
@@ -150,7 +150,7 @@ public class ConversorASCII {
 			return Character.MIN_VALUE;
 		}
 	}
-	public char s(char txt, boolean isUPPER) {
+	private static char s(char txt, boolean isUPPER) {
 		final String pattern = "Ss";
 		if(pattern.contains(String.valueOf(txt))) {
 			return isUPPER ? 'S' : 's';
@@ -158,7 +158,7 @@ public class ConversorASCII {
 			return Character.MIN_VALUE;
 		}
 	}
-	public char t(char txt, boolean isUPPER) {
+	private static char t(char txt, boolean isUPPER) {
 		final String pattern = "Tt";
 		if(pattern.contains(String.valueOf(txt))) {
 			return isUPPER ? 'T' : 't';
@@ -166,7 +166,7 @@ public class ConversorASCII {
 			return Character.MIN_VALUE;
 		}
 	}
-	public char u(char txt, boolean isUPPER) {
+	private static char u(char txt, boolean isUPPER) {
 		final String pattern = "ÚúÛûÙùÜüUu";
 		if(pattern.contains(String.valueOf(txt))) {
 			return isUPPER ? 'U' : 'u';
@@ -174,7 +174,7 @@ public class ConversorASCII {
 			return Character.MIN_VALUE;
 		}
 	}
-	public char v(char txt, boolean isUPPER) {
+	private static char v(char txt, boolean isUPPER) {
 		final String pattern = "Vv";
 		if(pattern.contains(String.valueOf(txt))) {
 			return isUPPER ? 'V' : 'v';
@@ -182,7 +182,7 @@ public class ConversorASCII {
 			return Character.MIN_VALUE;
 		}
 	}
-	public char w(char txt, boolean isUPPER) {
+	private static char w(char txt, boolean isUPPER) {
 		final String pattern = "Ww";
 		if(pattern.contains(String.valueOf(txt))) {
 			return isUPPER ? 'W' : 'w';
@@ -190,7 +190,7 @@ public class ConversorASCII {
 			return Character.MIN_VALUE;
 		}
 	}
-	public char x(char txt, boolean isUPPER) {
+	private static char x(char txt, boolean isUPPER) {
 		final String pattern = "Xx";
 		if(pattern.contains(String.valueOf(txt))) {
 			return isUPPER ? 'X' : 'x';
@@ -198,7 +198,7 @@ public class ConversorASCII {
 			return Character.MIN_VALUE;
 		}
 	}
-	public char y(char txt, boolean isUPPER) {
+	private static char y(char txt, boolean isUPPER) {
 		final String pattern = "ÝýYy";
 		if(pattern.contains(String.valueOf(txt))) {
 			return isUPPER ? 'Y' : 'y';
@@ -206,7 +206,7 @@ public class ConversorASCII {
 			return Character.MIN_VALUE;
 		}
 	}
-	public char z(char txt, boolean isUPPER) {
+	private static char z(char txt, boolean isUPPER) {
 		final String pattern = "Zz";
 		if(pattern.contains(String.valueOf(txt))) {
 			return isUPPER ? 'Z' : 'z';
@@ -214,7 +214,7 @@ public class ConversorASCII {
 			return Character.MIN_VALUE;
 		}
 	}
-	public String space(char txt) {
+	private static String space(char txt) {
 		final String pattern = " ";
 		if(pattern.contains(String.valueOf(txt))) {
 			return " ";
@@ -224,13 +224,13 @@ public class ConversorASCII {
 	}
 
 	/**
-	 * Caso não encontre correspondencia, não trará o caractere. Ex méæáéi123, trará "meaei".
-	 * Desconsiderando dígitos e caracteres especiais.
+	 * Converterá String para ASCII, ignorando os nao ASCIIs. Ex méæáéi123, trará "meaei".
+	 * Desconsiderando dígitos e caracteres especiais. APENAS LETRAS.
 	 * @param txt String que será convertida para ASCI
-	 * @param isUPPER vai trazer a String UPPERCASE ou LOWERCASE
-	 * @return
+	 * @param isUPPER vai trazer a String já em UPPERCASE ou LOWERCASE
+	 * @return String convertida para ASCII
 	 */
-	public String init(String txt, boolean isUPPER) {
+	public static String exec(String txt, boolean isUPPER) {
 		StringBuilder sb = new StringBuilder();
 		for(char in : txt.toCharArray()) {
 
@@ -269,9 +269,8 @@ public class ConversorASCII {
 
 	public static void main(String[] args) {
 		String txt = "mé æáé i123";
-		ConversorASCII conversor = new ConversorASCII();
 
-		System.out.println(conversor.init(txt, false));
+		System.out.println(ConversorASCII.exec(txt, false));
 	}
 
 }
